@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "jest",
+    "lint": "eslint src --max-warnings 0",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\""
   },
   "private": true,
   "packageManager": "npm@11.12.1",
@@ -25,9 +28,14 @@
     "@angular/cli": "^21.2.7",
     "@angular/compiler-cli": "^21.2.9",
     "@types/jest": "~30.0.0",
+    "@typescript-eslint/eslint-plugin": "~8.59.1",
+    "@typescript-eslint/parser": "~8.59.1",
+    "eslint": "~10.2.1",
     "jest": "~30.3.0",
+    "jest-environment-jsdom": "~30.3.0",
     "jest-preset-angular": "~16.1.4",
     "prettier": "^3.8.3",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "zone.js": "~0.16.1"
   }
 }

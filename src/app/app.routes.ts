@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes } from '@angular/router'
 
 export const routes: Routes = [
   {
@@ -8,7 +8,6 @@ export const routes: Routes = [
   },
   {
     path: 'collection',
-    loadComponent: () =>
-      import('./collection/collection').then((m) => m.Collection),
+    loadComponent: () => import('./collection/collection').then((m) => m.Collection),
   },
-];
+]
