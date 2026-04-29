@@ -9,9 +9,19 @@
   cursor: pointer;
 }
 
+.cover-link {
+  display: block;
+  height: 100%;
+}
+
 .vinyl-card:hover {
   transform: scale(1.04);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.cover-redacted {
+  filter: blur(3px);
+  transform: scale(1.02);
 }
 
 .cover-wrapper {
@@ -58,6 +68,11 @@
   aspect-ratio: 1;
   object-fit: cover;
   display: block;
+}
+
+.popup-cover-redacted {
+  filter: blur(4px);
+  transform: scale(1.02);
 }
 
 .popup-info {

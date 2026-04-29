@@ -5,8 +5,8 @@ import { VinylService } from '../core/vinyl.service';
 import { CollectionItem } from '../core/vinyl.model';
 import { VinylCard } from './vinyl-card/vinyl-card';
 
-const MIN_CELL_PX = 80;
 const PER_PAGE = 50;
+const MAX_ITEMS = 500;
 
 @Component({
   selector: 'app-collection',
@@ -16,6 +16,7 @@ const PER_PAGE = 50;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Collection {
+  protected readonly Math = Math;
   private readonly vinylService = inject(VinylService);
 
   protected readonly usernameInput = signal('');
@@ -23,7 +24,6 @@ export class Collection {
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly cols = signal(0);
-  protected readonly rows = signal(0);
 
   private readonly vpWidth = signal(window.innerWidth);
   private readonly vpHeight = signal(window.innerHeight);
@@ -44,22 +44,27 @@ export class Collection {
   }
 
   private async fetchPages(username?: string): Promise<void> {
-    const cols = Math.floor((this.vpWidth() * 0.9) / MIN_CELL_PX);
-    const rows = Math.floor((this.vpHeight() - 40) / MIN_CELL_PX);
-    const maxItems = cols * rows;
-
     this.items.set([]);
-    this.cols.set(cols);
-    this.rows.set(rows);
+    this.cols.set(0);
+    this.rows.set(0);
     this.error.set(null);
     this.loading.set(true);
 
     try {
       let page = 1;
-      while (this.items().length < maxItems) {
+      while (true) {
         const res = await firstValueFrom(this.vinylService.getCollection(username, page, PER_PAGE));
-        this.items.update(prev => [...prev, ...res.releases].slice(0, maxItems));
-        if (page >= res.pages) break;
+
+        if (page === 1) {
+          const n = Math.min(res.pages * PER_PAGE, MAX_ITEMS);
+          const W = this.vpWidth() * 0.9;
+          const H = this.vpHeight();
+          const cols = Math.max(1, Math.round(Math.sqrt(n * W / H)));
+          this.cols.set(cols);
+        }
+
+        this.items.update(prev => [...prev, ...res.releases]);
+        if (page >= res.pages || this.items().length >= MAX_ITEMS) break;
         page++;
       }
     } catch {
@@ -76,11 +81,9 @@ export class Collection {
 
   protected readonly gridStyle = computed(() => {
     const cols = this.cols();
-    const rows = this.rows();
-    if (!cols || !rows) return {};
+    if (!cols) return {};
     return {
       'grid-template-columns': `repeat(${cols}, 1fr)`,
-      'grid-template-rows': `repeat(${rows}, 1fr)`,
     };
   });
 }

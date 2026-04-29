@@ -1,21 +1,37 @@
 <main class="collection-page">
+  <header class="collection-header">
+    <div class="search-wrapper">
+      <form class="search-form" (submit)="submit(); $event.preventDefault()">
+        <input
+          class="search-input"
+          type="text"
+          placeholder="Discogs username&hellip;"
+          [value]="usernameInput()"
+          (input)="usernameInput.set($any($event.target).value)"
+          aria-label="Discogs username"
+        />
+        <button class="search-btn" type="submit" [disabled]="loading()">Search</button>
+      </form>
+      <p class="search-hint">Browse a <a href="https://www.discogs.com/" target="_blank" rel="noopener">Discogs</a> user's collection.</p>
+    </div>
+  </header>
   @if (error()) {
     <div class="error-state" role="alert">
       <p>{{ error() }}</p>
     </div>
-  } @else if (loading() && collection().length === 0) {
+  } @else if (loading() && cols() === 0) {
     <div class="loading-state" role="status" aria-label="Loading collection" aria-busy="true">
       <div class="spinner" aria-hidden="true"></div>
-      <p>Loading&hellip;</p>
+      <p>{{ count() > 0 ? count() + ' loaded…' : 'Loading…' }}</p>
     </div>
-  } @else if (!loading() && collection().length === 0) {
+  } @else if (collection().length === 0) {
     <div class="empty-state">
       <p>No records found in your collection.</p>
     </div>
   } @else {
     <ul class="collection-grid" [style]="gridStyle()" aria-label="Vinyl records">
       @for (item of collection(); track item.id) {
-        <li>
+        <li [style.--fade-delay]="(Math.random()).toFixed(2) + 's'">
           <app-vinyl-card [item]="item" />
         </li>
       }
@@ -23,19 +39,8 @@
   }
 
   <footer class="collection-footer">
-    <form class="search-form" (submit)="submit(); $event.preventDefault()">
-      <input
-        class="search-input"
-        type="text"
-        placeholder="Discogs username&hellip;"
-        [value]="usernameInput()"
-        (input)="usernameInput.set($any($event.target).value)"
-        aria-label="Discogs username"
-      />
-      <button class="search-btn" type="submit" [disabled]="loading()">Search</button>
-    </form>
     <span class="footer-status">
-      @if (loading() && collection().length > 0) {
+      @if (loading() && count() > 0) {
         <span class="footer-spinner" aria-hidden="true"></span>
         {{ count() }} loaded&hellip;
       } @else if (!loading() && count() > 0) {
