@@ -1,7 +1,7 @@
 {
   "/api": {
-    "target": "https://my-vinyl-api.mattjarrett.dev",
-    "secure": true,
+    "target": "https://my-vinyl-api.local.lab",
+    "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
       "^/api": ""
