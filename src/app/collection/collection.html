@@ -1,0 +1,49 @@
+<main class="collection-page">
+  @if (error()) {
+    <div class="error-state" role="alert">
+      <p>{{ error() }}</p>
+    </div>
+  } @else if (loading() && collection().length === 0) {
+    <div class="loading-state" role="status" aria-label="Loading collection" aria-busy="true">
+      <div class="spinner" aria-hidden="true"></div>
+      <p>Loading&hellip;</p>
+    </div>
+  } @else if (!loading() && collection().length === 0) {
+    <div class="empty-state">
+      <p>No records found in your collection.</p>
+    </div>
+  } @else {
+    <ul class="collection-grid" [style]="gridStyle()" aria-label="Vinyl records">
+      @for (item of collection(); track item.id) {
+        <li>
+          <app-vinyl-card [item]="item" />
+        </li>
+      }
+    </ul>
+  }
+
+  <footer class="collection-footer">
+    <form class="search-form" (submit)="submit(); $event.preventDefault()">
+      <input
+        class="search-input"
+        type="text"
+        placeholder="Discogs username&hellip;"
+        [value]="usernameInput()"
+        (input)="usernameInput.set($any($event.target).value)"
+        aria-label="Discogs username"
+      />
+      <button class="search-btn" type="submit" [disabled]="loading()">Search</button>
+    </form>
+    <span class="footer-status">
+      @if (loading() && collection().length > 0) {
+        <span class="footer-spinner" aria-hidden="true"></span>
+        {{ count() }} loaded&hellip;
+      } @else if (!loading() && count() > 0) {
+        {{ count() }} albums
+      }
+    </span>
+    <span class="footer-credit">
+      Made by <a href="https://mattjarrett.dev/" target="_blank" rel="noopener">Matt Jarrett</a> with &hearts; and <a href="https://www.discogs.com/" target="_blank" rel="noopener">Discogs</a>
+    </span>
+  </footer>
+</main>
