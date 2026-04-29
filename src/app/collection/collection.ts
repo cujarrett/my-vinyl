@@ -46,7 +46,6 @@ export class Collection {
   private async fetchPages(username?: string): Promise<void> {
     this.items.set([]);
     this.cols.set(0);
-    this.rows.set(0);
     this.error.set(null);
     this.loading.set(true);
 
