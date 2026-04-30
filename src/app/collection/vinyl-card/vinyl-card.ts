@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   ElementRef,
   HostListener,
   inject,
@@ -9,6 +10,8 @@ import {
 } from '@angular/core'
 
 import { CollectionItem } from '../../core/vinyl.model'
+
+const REDACTED_IDS = new Set([33280299, 6224441, 7553246, 24975118])
 
 @Component({
   selector: 'app-vinyl-card',
@@ -21,6 +24,7 @@ export class VinylCard {
 
   private readonly el = inject(ElementRef)
 
+  protected readonly isRedacted = computed(() => REDACTED_IDS.has(this.item().id))
   protected readonly hovered = signal(false)
   protected readonly popupStyle = signal<Record<string, string>>({})
 

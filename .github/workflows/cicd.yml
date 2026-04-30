@@ -69,6 +69,7 @@ jobs:
           tags: |
             type=sha,format=long,enable=${{ github.event_name == 'push' }}
             type=raw,value=latest,enable=${{ github.event_name == 'push' }}
+            type=raw,value=main,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
 
       - name: Build and push
         uses: docker/build-push-action@v7

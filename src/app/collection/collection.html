@@ -15,28 +15,30 @@
       <p class="search-hint">Browse a <a href="https://www.discogs.com/" target="_blank" rel="noopener">Discogs</a> user's collection.</p>
     </div>
   </header>
-  @if (error()) {
-    <div class="error-state" role="alert">
-      <p>{{ error() }}</p>
-    </div>
-  } @else if (loading() && cols() === 0) {
-    <div class="loading-state" role="status" aria-label="Loading collection" aria-busy="true">
-      <div class="spinner" aria-hidden="true"></div>
-      <p>{{ count() > 0 ? count() + ' loaded…' : 'Loading…' }}</p>
-    </div>
-  } @else if (collection().length === 0) {
-    <div class="empty-state">
-      <p>No records found in your collection.</p>
-    </div>
-  } @else {
-    <ul class="collection-grid" [style]="gridStyle()" aria-label="Vinyl records">
-      @for (item of collection(); track item.id) {
-        <li [style.--fade-delay]="(Math.random()).toFixed(2) + 's'">
-          <app-vinyl-card [item]="item" />
-        </li>
-      }
-    </ul>
-  }
+  <div class="collection-body">
+    @if (error()) {
+      <div class="error-state" role="alert">
+        <p>{{ error() }}</p>
+      </div>
+    } @else if (loading() && cols() === 0) {
+      <div class="loading-state" role="status" aria-label="Loading collection" aria-busy="true">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>{{ count() > 0 ? count() + ' loaded…' : 'Loading…' }}</p>
+      </div>
+    } @else if (collection().length === 0) {
+      <div class="empty-state">
+        <p>No records found in your collection.</p>
+      </div>
+    } @else {
+      <ul class="collection-grid" [style]="gridStyle()" aria-label="Vinyl records">
+        @for (item of collection(); track item.id) {
+          <li [style.--fade-delay]="(Math.random()).toFixed(2) + 's'">
+            <app-vinyl-card [item]="item" />
+          </li>
+        }
+      </ul>
+    }
+  </div>
 
   <footer class="collection-footer">
     <span class="footer-status">

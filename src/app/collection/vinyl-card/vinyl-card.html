@@ -1,7 +1,7 @@
 <article class="vinyl-card">
   <a class="cover-link" [href]="'https://www.discogs.com/release/' + item().id" target="_blank" rel="noopener" [attr.aria-label]="item().artist + ' – ' + item().title + ' on Discogs'">
     <div class="cover-wrapper">
-      @if (item().id === 33280299) {
+      @if (isRedacted()) {
         <img
           class="cover cover-redacted"
           [src]="item().cover_url"
@@ -26,23 +26,14 @@
 
 @if (hovered()) {
   <div class="hover-popup" [style]="popupStyle()">
-    @if (item().id !== 33280299) {
-      <img
-        class="popup-cover"
-        [src]="item().cover_url"
-        [alt]="item().artist + ' \u2013 ' + item().title"
-        width="220"
-        height="220"
-      />
-    } @else {
-      <img
-        class="popup-cover popup-cover-redacted"
-        [src]="item().cover_url"
-        [alt]="item().artist + ' – ' + item().title"
-        width="220"
-        height="220"
-      />
-    }
+    <img
+      class="popup-cover"
+      [class.popup-cover-redacted]="isRedacted()"
+      [src]="item().cover_url"
+      [alt]="item().artist + ' – ' + item().title"
+      width="220"
+      height="220"
+    />
     <div class="popup-info">
       <p class="popup-artist">{{ item().artist }}</p>
       <h2 class="popup-title">{{ item().title }}</h2>
