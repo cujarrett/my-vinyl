@@ -14,6 +14,6 @@ export class VinylService {
   getCollection(username?: string, page = 1, perPage = PER_PAGE): Observable<CollectionPage> {
     const params = new URLSearchParams({ page: String(page), per_page: String(perPage) })
     if (username) params.set('username', username)
-    return this.http.get<CollectionPage>(`${environment.apiUrl}/collection?${params}`)
+    return this.http.get<CollectionPage>(`${environment.apiUrl}?${params}`)
   }
 }
