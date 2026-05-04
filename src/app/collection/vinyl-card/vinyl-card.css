@@ -19,6 +19,13 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
+@media (pointer: coarse) {
+  .vinyl-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
 .cover-redacted {
   filter: blur(3px);
   transform: scale(1.02);

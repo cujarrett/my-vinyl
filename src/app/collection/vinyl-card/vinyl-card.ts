@@ -34,16 +34,17 @@ export class VinylCard {
 
   private computePopupPosition(): void {
     const rect: DOMRect = (this.el.nativeElement as HTMLElement).getBoundingClientRect()
-    const popupW = 220
-    const popupH = 300
     const margin = 8
     const vw = window.innerWidth
     const vh = window.innerHeight
+    const popupW = Math.min(220, vw - margin * 2)
+    const popupH = 300
 
     let left = rect.right + margin
     if (left + popupW > vw) {
       left = rect.left - popupW - margin
     }
+    left = Math.max(margin, Math.min(left, vw - popupW - margin))
 
     let top = rect.top
     if (top + popupH > vh) {
