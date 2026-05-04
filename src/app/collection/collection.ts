@@ -65,8 +65,9 @@ export class Collection {
           const n = Math.min(res.pages * PER_PAGE, MAX_ITEMS)
           const W = this.vpWidth() * 0.9
           const H = this.vpHeight()
+          const isMobile = this.vpWidth() <= 768
           const cols = Math.max(1, Math.round(Math.sqrt((n * W) / H)))
-          this.cols.set(cols)
+          this.cols.set(isMobile ? Math.min(cols, 5) : cols)
         }
 
         this.items.update((prev) => [...prev, ...res.releases])
