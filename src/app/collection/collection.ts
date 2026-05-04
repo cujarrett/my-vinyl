@@ -85,7 +85,8 @@ export class Collection {
       const ALIASES: Record<string, string> = { Ye: 'Kanye West' }
       // Discogs appends " (N)" to disambiguate artists — strip it before alias lookup
       const normalize = (name: string) => name.replace(/\s*\(\d+\)$/, '').trim()
-      const sortKey = (name: string) => (ALIASES[normalize(name)] ?? normalize(name)).replace(/^the\s+/i, '')
+      const sortKey = (name: string) =>
+        (ALIASES[normalize(name)] ?? normalize(name)).replace(/^the\s+/i, '')
       return sortKey(a.artist).localeCompare(sortKey(b.artist)) || a.year - b.year
     }),
   )
