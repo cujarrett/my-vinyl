@@ -43,7 +43,7 @@
 
 .hover-popup {
   position: fixed;
-  z-index: 1000;
+  z-index: 9999;
   background-color: var(--color-surface);
   border-radius: 0.75rem;
   overflow: hidden;

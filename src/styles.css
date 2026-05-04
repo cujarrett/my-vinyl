@@ -23,6 +23,14 @@ body {
   overflow: hidden;
 }
 
+@media (max-width: 768px) {
+  html,
+  body {
+    height: auto;
+    overflow: auto;
+  }
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--color-bg);

@@ -81,15 +81,49 @@ export class Collection {
   }
 
   protected readonly collection = computed(() =>
-    [...this.items()].sort((a, b) => a.artist.localeCompare(b.artist)),
+    [...this.items()].sort((a, b) => {
+      const ALIASES: Record<string, string> = { Ye: 'Kanye West' }
+      // Discogs appends " (N)" to disambiguate artists — strip it before alias lookup
+      const normalize = (name: string) => name.replace(/\s*\(\d+\)$/, '').trim()
+      const sortKey = (name: string) => (ALIASES[normalize(name)] ?? normalize(name)).replace(/^the\s+/i, '')
+      return sortKey(a.artist).localeCompare(sortKey(b.artist)) || a.year - b.year
+    }),
   )
   protected readonly count = computed(() => this.collection().length)
 
   protected readonly gridStyle = computed(() => {
-    const cols = this.cols()
-    if (!cols) return {}
+    const n = this.items().length
+    if (!n) return {}
+
+    // Mobile: fill width, page scrolls
+    if (this.vpWidth() <= 768) {
+      const cols = this.cols()
+      return cols ? { 'grid-template-columns': `repeat(${cols}, 1fr)` } : {}
+    }
+
+    // Desktop: find the column count that produces the largest square item size
+    const gap = 8 // 0.5rem in px
+    const availW = this.vpWidth() - 32 // 16px padding each side
+    const availH = this.vpHeight() - 140 // header + footer
+
+    let bestSize = 0
+    let bestCols = 1
+    for (let c = 1; c <= n; c++) {
+      const r = Math.ceil(n / c)
+      const sw = (availW - gap * (c - 1)) / c
+      const sh = (availH - gap * (r - 1)) / r
+      if (sw <= 0 || sh <= 0) continue
+      const s = Math.min(sw, sh)
+      if (s > bestSize) {
+        bestSize = s
+        bestCols = c
+      }
+    }
+
+    const size = Math.floor(bestSize)
     return {
-      'grid-template-columns': `repeat(${cols}, 1fr)`,
+      'grid-template-columns': `repeat(${bestCols}, ${size}px)`,
+      'grid-auto-rows': `${size}px`,
     }
   })
 }
