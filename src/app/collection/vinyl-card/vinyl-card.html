@@ -1,5 +1,5 @@
 <article class="vinyl-card">
-  <a class="cover-link" [href]="'https://www.discogs.com/release/' + item().id" target="_blank" rel="noopener" [attr.aria-label]="item().artist + ' – ' + item().title + ' on Discogs'">
+  <a class="cover-link" [href]="'https://www.discogs.com/release/' + item().id" target="_blank" rel="noopener" [attr.aria-label]="item().artist + ' – ' + item().title + ' on Discogs'" (click)="onCardClick($event)">
     <div class="cover-wrapper">
       @if (isRedacted()) {
         <img

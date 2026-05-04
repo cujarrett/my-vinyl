@@ -28,8 +28,11 @@ export class VinylCard {
   protected readonly hovered = signal(false)
   protected readonly popupStyle = signal<Record<string, string>>({})
 
-  @HostListener('mouseenter')
-  onEnter(): void {
+  private get isTouchDevice(): boolean {
+    return window.matchMedia('(pointer: coarse)').matches
+  }
+
+  private computePopupPosition(): void {
     const rect: DOMRect = (this.el.nativeElement as HTMLElement).getBoundingClientRect()
     const popupW = 220
     const popupH = 300
@@ -53,11 +56,35 @@ export class VinylCard {
       top: `${top}px`,
       width: `${popupW}px`,
     })
+  }
+
+  @HostListener('mouseenter')
+  onEnter(): void {
+    this.computePopupPosition()
     this.hovered.set(true)
   }
 
   @HostListener('mouseleave')
   onLeave(): void {
     this.hovered.set(false)
+  }
+
+  onCardClick(event: MouseEvent): void {
+    if (!this.isTouchDevice) return
+    event.preventDefault()
+    if (this.hovered()) {
+      this.hovered.set(false)
+      return
+    }
+    this.computePopupPosition()
+    this.hovered.set(true)
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.hovered()) return
+    if (!(this.el.nativeElement as HTMLElement).contains(event.target as Node)) {
+      this.hovered.set(false)
+    }
   }
 }
