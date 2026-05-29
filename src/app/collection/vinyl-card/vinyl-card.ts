@@ -11,7 +11,7 @@ import {
 
 import { CollectionItem } from '../../core/vinyl.model'
 
-const REDACTED_IDS = new Set([33280299, 6224441, 7553246, 24975118])
+const REDACTED_IDS = new Set([33280299, 6224441, 7553246, 24975118, 31021513])
 
 @Component({
   selector: 'app-vinyl-card',
