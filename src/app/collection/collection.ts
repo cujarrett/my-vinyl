@@ -13,7 +13,7 @@ import { CollectionItem } from '../core/vinyl.model'
 import { VinylCard } from './vinyl-card/vinyl-card'
 
 const PER_PAGE = 50
-const MAX_ITEMS = 500
+const MAX_ITEMS = 1000
 
 @Component({
   selector: 'app-collection',
