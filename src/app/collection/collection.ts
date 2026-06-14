@@ -31,6 +31,7 @@ export class Collection {
   protected readonly loading = signal(false)
   protected readonly error = signal<string | null>(null)
   protected readonly cols = signal(0)
+  protected readonly sortMode = signal<'year' | 'added'>('year')
 
   private readonly vpWidth = signal(window.innerWidth)
   private readonly vpHeight = signal(window.innerHeight)
@@ -81,16 +82,19 @@ export class Collection {
     }
   }
 
-  protected readonly collection = computed(() =>
-    [...this.items()].sort((a, b) => {
-      const ALIASES: Record<string, string> = { Ye: 'Kanye West' }
-      // Discogs appends " (N)" to disambiguate artists — strip it before alias lookup
-      const normalize = (name: string) => name.replace(/\s*\(\d+\)$/, '').trim()
-      const sortKey = (name: string) =>
-        (ALIASES[normalize(name)] ?? normalize(name)).replace(/^the\s+/i, '')
-      return sortKey(a.artist).localeCompare(sortKey(b.artist)) || a.year - b.year
-    }),
-  )
+  protected readonly collection = computed(() => {
+    const ALIASES: Record<string, string> = { Ye: 'Kanye West' }
+    const normalize = (name: string) => name.replace(/\s*\(\d+\)$/, '').trim()
+    const sortKey = (name: string) =>
+      (ALIASES[normalize(name)] ?? normalize(name)).replace(/^the\s+/i, '')
+
+    if (this.sortMode() === 'added') {
+      return [...this.items()].sort((a, b) => b.date_added.localeCompare(a.date_added))
+    }
+    return [...this.items()].sort(
+      (a, b) => sortKey(a.artist).localeCompare(sortKey(b.artist)) || a.year - b.year,
+    )
+  })
   protected readonly count = computed(() => this.collection().length)
 
   protected readonly gridStyle = computed(() => {

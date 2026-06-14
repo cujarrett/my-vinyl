@@ -11,8 +11,12 @@
           aria-label="Discogs username"
         />
         <button class="search-btn" type="submit" [disabled]="loading()">Search</button>
+        <div class="sort-toggle" role="group" aria-label="Sort order">
+          <button class="sort-btn" [class.active]="sortMode() === 'year'" (click)="sortMode.set('year')" title="Sort A–Z by artist">A–Z</button>
+          <button class="sort-btn" [class.active]="sortMode() === 'added'" (click)="sortMode.set('added')" title="Sort by recently added">New</button>
+        </div>
       </form>
-      <p class="search-hint">Browse a <a href="https://www.discogs.com/" target="_blank" rel="noopener">Discogs</a> user's collection.</p>
+      <p class="search-hint">Browse any <a href="https://www.discogs.com/" target="_blank" rel="noopener">Discogs</a> user's collection.</p>
     </div>
   </header>
   <div class="collection-body">

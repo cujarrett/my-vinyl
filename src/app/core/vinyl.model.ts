@@ -5,6 +5,7 @@ export interface CollectionItem {
   year: number
   label: string
   cover_url: string
+  date_added: string
 }
 
 export interface CollectionPage {
