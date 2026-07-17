@@ -36,7 +36,7 @@
     "jest-environment-jsdom": "~30.4.1",
     "jest-preset-angular": "~17.0.0",
     "prettier": "^3.9.5",
-    "typescript": "~6.0.3",
+    "typescript": "~7.0.2",
     "zone.js": "~0.16.2"
   }
 }
