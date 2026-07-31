@@ -11,7 +11,14 @@ import {
 
 import { CollectionItem } from '../../core/vinyl.model'
 
-const REDACTED_IDS = new Set([33280299, 6224441, 7553246, 24975118, 31021513])
+const REDACTED_IDS = new Set([
+  33280299, // Dr. Dre – 2001
+  7553246,  // Eagles Of Death Metal – Zipper Down
+  6224441,  // Led Zeppelin – Houses Of The Holy
+  24975118, // Nirvana – Nevermind
+  31021513, // Queens Of The Stone Age – Queens Of The Stone Age
+  38010948  // Teyana Taylor – K.T.S.E.
+])
 
 @Component({
   selector: 'app-vinyl-card',
@@ -72,11 +79,11 @@ export class VinylCard {
 
   onCardClick(event: MouseEvent): void {
     if (!this.isTouchDevice) return
+    // Touch has no hover, so the first tap stands in for it and reveals the
+    // details. Tapping an already-open card follows the link — without this it
+    // just closed the popup again and Discogs was unreachable on a phone.
+    if (this.hovered()) return
     event.preventDefault()
-    if (this.hovered()) {
-      this.hovered.set(false)
-      return
-    }
     this.computePopupPosition()
     this.hovered.set(true)
   }
