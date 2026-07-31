@@ -11,6 +11,32 @@
     min-height: 100%;
     padding: 0 5%;
   }
+
+  /* The 240px input plus button plus sort toggle is wider than a phone, which
+     clipped both ends of the header. Let the input take what is left and drop
+     the toggle onto its own full-width row. */
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .search-form {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .search-input {
+    width: auto;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sort-toggle {
+    flex-basis: 100%;
+  }
+
+  .sort-btn {
+    flex: 1;
+  }
 }
 
 /* Header */
