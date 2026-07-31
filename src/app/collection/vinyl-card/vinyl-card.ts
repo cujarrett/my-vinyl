@@ -13,11 +13,11 @@ import { CollectionItem } from '../../core/vinyl.model'
 
 const REDACTED_IDS = new Set([
   33280299, // Dr. Dre – 2001
-  7553246,  // Eagles Of Death Metal – Zipper Down
-  6224441,  // Led Zeppelin – Houses Of The Holy
+  7553246, // Eagles Of Death Metal – Zipper Down
+  6224441, // Led Zeppelin – Houses Of The Holy
   24975118, // Nirvana – Nevermind
   31021513, // Queens Of The Stone Age – Queens Of The Stone Age
-  38010948  // Teyana Taylor – K.T.S.E.
+  38010948, // Teyana Taylor – K.T.S.E.
 ])
 
 @Component({
