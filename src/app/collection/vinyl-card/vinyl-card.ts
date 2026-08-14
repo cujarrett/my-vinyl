@@ -80,7 +80,7 @@ export class VinylCard {
   onCardClick(event: MouseEvent): void {
     if (!this.isTouchDevice) return
     // Touch has no hover, so the first tap stands in for it and reveals the
-    // details. Tapping an already-open card follows the link — without this it
+    // details. Tapping an already-open card follows the link - without this it
     // just closed the popup again and Discogs was unreachable on a phone.
     if (this.hovered()) return
     event.preventDefault()

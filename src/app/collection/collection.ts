@@ -22,7 +22,7 @@ const MAX_ITEMS = 1000
 const RETRY_LIMIT = 6
 const DEFAULT_RETRY_DELAY_MS = 1000
 
-// A phone is ~390px wide. Five columns left each cover around 58px — too small
+// A phone is ~390px wide. Five columns left each cover around 58px - too small
 // to recognise the art, which is the whole point of the grid.
 const MOBILE_MAX_COLS = 3
 
@@ -63,7 +63,7 @@ export class Collection {
   }
 
   // Fetch one page, retrying while the rate limiter pushes back. Only 429 is
-  // retried — every other failure is real and should surface immediately.
+  // retried - every other failure is real and should surface immediately.
   private async fetchPageWithRetry(username: string | undefined, page: number) {
     for (let attempt = 0; ; attempt++) {
       try {
