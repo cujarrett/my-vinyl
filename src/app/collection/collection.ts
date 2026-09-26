@@ -105,8 +105,13 @@ export class Collection {
         if (page >= res.pages || this.items().length >= MAX_ITEMS) break
         page++
       }
-    } catch {
-      this.error.set('Failed to load collection. Please try again.')
+    } catch (err) {
+      const notFound = err instanceof HttpErrorResponse && err.status === 404
+      this.error.set(
+        notFound && username
+          ? `No Discogs user named "${username}".`
+          : 'Failed to load collection. Please try again.',
+      )
     } finally {
       this.loading.set(false)
     }
