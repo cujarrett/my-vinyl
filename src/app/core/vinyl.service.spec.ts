@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing'
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing'
 import { provideHttpClient } from '@angular/common/http'
 
+import { ConfigService } from './config.service'
 import { VinylService } from './vinyl.service'
 import { CollectionPage } from './vinyl.model'
 
@@ -27,7 +28,11 @@ describe('VinylService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: ConfigService, useValue: { apiUrl: '/api/collection' } },
+      ],
     })
     service = TestBed.inject(VinylService)
     http = TestBed.inject(HttpTestingController)

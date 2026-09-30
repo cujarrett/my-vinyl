@@ -14,7 +14,7 @@ Before telling the user to commit, always run `/security-review`. It reviews the
 
 A single-page Angular app that browses any [Discogs](https://www.discogs.com/) user's vinyl record collection. The user types a Discogs username into the search bar; the app pages through the Discogs-backed API and renders the collection as a responsive square grid of album covers. Hovering a card shows a popup with artist, title, year, and label. Clicking a card opens the release on Discogs in a new tab.
 
-The backend API lives at `https://my-vinyl-api.mattjarrett.dev` (configured via `src/environments/`). The frontend is a pure static Angular build served by nginx in a Docker container.
+The backend API URL is read from `/config.json` at load, so one image runs in any environment. The platform serves it from the Spa's `publicConfig`; `public/config.json` is the dev default that prod overrides. The frontend is a pure static Angular build served by nginx in a Docker container.
 
 ## Tech stack
 
@@ -31,7 +31,7 @@ The backend API lives at `https://my-vinyl-api.mattjarrett.dev` (configured via 
 
 ```
 src/app/
-  app.config.ts          # Bootstrap, HttpClient provider
+  app.config.ts          # Bootstrap, HttpClient provider, config initializer
   app.routes.ts          # Routes (single route → Collection)
   app.ts                 # Root component
   collection/
@@ -43,11 +43,11 @@ src/app/
       vinyl-card.html
       vinyl-card.css
   core/
+    config.service.ts    # Loads /config.json before bootstrap; exposes apiUrl
     vinyl.model.ts       # CollectionItem, CollectionPage interfaces
     vinyl.service.ts     # HttpClient wrapper for the backend API
-src/environments/
-  environment.ts         # Dev: proxied via proxy.conf.json
-  environment.prod.ts    # Prod: https://my-vinyl-api.mattjarrett.dev
+public/
+  config.json            # Dev default, proxied via proxy.conf.json
 ```
 
 ## Key conventions
