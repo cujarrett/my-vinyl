@@ -25,7 +25,7 @@ The backend API URL is read from `/config.json` at load, so one image runs in an
 | Styling | Plain CSS custom properties, no preprocessor |
 | Tests | Jest via `jest-preset-angular` |
 | Build | Angular CLI + `ng build` |
-| Container | Multi-stage Docker build → nginx:alpine |
+| Container | Multi-stage Docker build → nginx:1.31-alpine |
 
 ## Project structure
 
